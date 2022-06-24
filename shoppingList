@@ -1,0 +1,33 @@
+#include <iostream>
+#include <vector>
+#include <string>
+#include <fstream>
+
+using namespace std;
+
+vector<string> shopList;
+
+void inputList() {
+	string input;
+	while ((cout << "What do you want to buy? "), (cin >> input) && input != "quit")
+		shopList.push_back(input);
+}
+
+void writeList() {
+	ofstream myList;
+	myList.open("shoplist.txt");
+	if (myList.is_open()) {
+		for (int i = 0; i < size(shopList); i++) {
+			myList << shopList[i] << endl;
+		}
+	}
+	else {
+		cout << "Error opening file" << endl;
+	}
+}
+
+int main() {
+	inputList();
+	system("clear");
+	writeList();
+}
