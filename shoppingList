@@ -28,6 +28,5 @@ void writeList() {
 
 int main() {
 	inputList();
-	system("clear");
 	writeList();
 }
