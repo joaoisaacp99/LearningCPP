@@ -1,0 +1,98 @@
+#include <iostream>
+#include <stdio.h>      
+#include <stdlib.h>     
+#include <time.h>
+
+using namespace std;
+
+const int h = 10, w = 10;
+
+struct Grid {
+	char tiles;
+	bool collision;
+}grid[h][w];
+
+struct Entity {
+	int x, y;
+}player, enemy;
+
+void generateGrid() {
+	for (int i = 0; i < h; i++) {
+		for (int j = 0; j < w; j++) {	
+			if (i == 0 || i == h - 1 || j == 0 || j == w - 1) {
+				grid[i][j].tiles = '#';
+				grid[i][j].collision = true;
+			}
+			else {
+				grid[i][j].tiles = '.';
+				grid[i][j].collision = false;
+			}
+		}
+	}
+	player.x = w / 2;
+	player.y = h / 2;
+	enemy.x = 2;
+	enemy.y = 2;
+}
+
+void printGrid() {
+	for (int i = 0; i < h; i++) {
+		for (int j = 0; j < w; j++) {
+			if (i == player.y && j == player.x) {
+				cout << "@";		
+			}
+			else if (i == enemy.y && j == enemy.x) {
+				cout << "x";
+			}
+			else {
+				cout << grid[i][j].tiles;
+			}
+		}
+		cout << endl;
+	}
+}
+
+void controls() {
+	char option;
+	cin >> option;
+	if (option == 'w' && grid[player.y - 1][player.x].collision == false) {
+		player.y--;
+	}
+	if (option == 's' && grid[player.y + 1][player.x].collision == false) {
+		player.y++;
+	}
+	if (option == 'a' && grid[player.y][player.x - 1].collision == false) {
+		player.x--;
+	}
+	if (option == 'd' && grid[player.y][player.x + 1].collision == false) {
+		player.x++;
+	}
+}
+
+void enemyControls() {
+	srand(time(NULL));
+	if (grid[enemy.y - 1][enemy.x].collision == false && rand() % 4 == 0) {
+		enemy.y--;
+	}
+	if (grid[enemy.y + 1][enemy.x].collision == false && rand() % 4 == 1) {
+		enemy.y++;
+	}
+	if (grid[enemy.y][enemy.x - 1].collision == false && rand() % 4 == 2) {
+		enemy.x--;
+	}
+	if (grid[enemy.y][enemy.x + 1].collision == false && rand() % 4 == 3) {
+		enemy.x++;
+	}
+}
+
+int main() {
+		
+	generateGrid();
+	while (true) {
+		system("clear");
+		printGrid();
+		controls();
+		enemyControls();
+	}
+	return 0;
+}
